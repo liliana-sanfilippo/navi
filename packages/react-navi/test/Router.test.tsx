@@ -1,7 +1,7 @@
-import { route, mount } from 'navi'
-import React, { Suspense } from 'react'
 import ReactTestRenderer from 'react-test-renderer'
 import { Router } from '../src'
+import { Suspense } from 'react'
+import { mount, route } from '@liliana-sanfilippo/navi'
 
 describe("Navigation", () => {
   test("can update child context", async () => {

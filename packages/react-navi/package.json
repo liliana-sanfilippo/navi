@@ -29,15 +29,13 @@
     "static"
   ],
   "peerDependencies": {
-    "navi": "^0.14.0",
-    "react": "^16.8.0"
+    "@liliana-sanfilippo/navi": "^0.0.1",
+    "react": "^19.1.1"
   },
   "dependencies": {
-    "@types/history": "^4.6.2"
+
   },
-  "devDependencies": {
-    "navi": "^0.15.0"
-  },
+  "devDependencies": {},
   "homepage": "https://frontarm.com/navi/",
   "repository": {
     "type": "git",

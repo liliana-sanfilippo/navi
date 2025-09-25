@@ -54,10 +54,13 @@ export function createBrowserNavigation<Context extends object>(
     delete window['__NAVI_STATE__']
   }
 
-  let history = options.history || createBrowserHistory()
+  let history: History = options.history || createBrowserHistory()
   if (options.state) {
+
     history.replace({
-      ...history.location,
+      pathname: history.location.pathname,
+      search: history.location.search,
+      hash: history.location.hash,
       state: options.state,
     })
   }

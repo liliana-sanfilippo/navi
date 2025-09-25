@@ -8,7 +8,7 @@ export class ChunkListObservable implements Observable<Chunk[]> {
     readonly url: URLDescriptor
 
     private result: IteratorResult<Chunk[]>
-    private matcherIterator: MatcherIterator
+    private matcherIterator?: MatcherIterator
     private observers: Observer<Chunk[]>[]
     private lastListenId: number
   
@@ -67,7 +67,8 @@ export class ChunkListObservable implements Observable<Chunk[]> {
     }
 
     private refresh = () => {
-        let result = this.matcherIterator.next()
+      if (!this.matcherIterator) return;
+      let result = this.matcherIterator.next()
         if (result.value) {
             this.result = result
         }

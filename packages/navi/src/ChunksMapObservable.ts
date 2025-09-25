@@ -37,15 +37,15 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
   private rootContext: any
   private matcherGeneratorFunction: MatcherGenerator<any>
   private rootMapping: Mapping
-  private observers: Observer<ChunksMap>[]
+  private observers?: Observer<ChunksMap>[]
   private isRefreshScheduled: boolean
   private isRefreshing: boolean
-  private router: Router
+  private router?: Router
   private options: RouterMapOptions
   private lastListenId: number
 
   private seenPathnames: Set<string>
-  private mapItems: MapItem[]
+  private mapItems?: MapItem[]
 
   constructor(
     url: URLDescriptor,
@@ -101,6 +101,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
   }
 
   private async expandPatterns(pattern: string) {
+    if (!this.router) return;
     if (this.options.expandPattern) {
       let expandedPatterns = await this.options.expandPattern(
         pattern,
@@ -114,6 +115,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
   }
 
   private handleUnsubscribe = (observer: Observer<ChunksMap>) => {
+    if (!this.observers) return;
     let index = this.observers.indexOf(observer)
     if (index !== -1) {
       this.observers.splice(index, 1)
@@ -205,6 +207,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
               let expandedPatterns = await this.expandPatterns(
                 joinPaths(pathname, patterns[j]),
               )
+              if (!expandedPatterns) return;
               for (let k = 0; k < expandedPatterns.length; k++) {
                 this.addToQueue(
                   expandedPatterns[k],
@@ -294,7 +297,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
         }
         chunksMap[modifyTrailingSlash(pathname, 'remove')] = chunks
       }
-
+      if (!this.observers) return;
       for (let i = 0; i < this.observers.length; i++) {
         let observer = this.observers[i]
         observer.next(chunksMap)
@@ -314,6 +317,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
   }
 
   private removeFromQueue(item) {
+    if (!this.mapItems) return;
     let i = this.mapItems.indexOf(item)
     if (i !== -1) {
       this.mapItems.splice(i, 1)
@@ -354,6 +358,7 @@ export class ChunksMapObservable implements Observable<ChunksMap> {
         state: {},
       }
       let matchRequest = matchAgainstPathname(request, this.rootMapping)
+      if (!this.mapItems) return;
       if (matchRequest) {
         this.mapItems.push({
           url,

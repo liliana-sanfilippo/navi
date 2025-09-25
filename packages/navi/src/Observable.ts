@@ -32,8 +32,8 @@ export interface Observer<T> {
 export class SimpleSubscription implements Subscription {
     closed: boolean;
 
-    private close: (observer: Observer<any>) => void
-    private observer: Observer<any>
+    private close?: (observer: Observer<any>) => void
+    private observer?: Observer<any>
 
     constructor(close: (observer: Observer<any>) => void, observer: Observer<any>) {
         this.close = close
@@ -46,8 +46,11 @@ export class SimpleSubscription implements Subscription {
     unsubscribe() {
         if (!this.closed) {
             this.closed = true
-            this.close(this.observer)
-            delete this.close
+          if (!this.observer) return;
+            if (this.close) {
+              this.close(this.observer)
+              delete this.close
+            }
             delete this.observer
         }
     }

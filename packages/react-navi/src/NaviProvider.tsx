@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Navigation, Subscription, Route } from 'navi'
 import { HashScroll, HashScrollBehavior } from './HashScroll'
 import { NaviContext } from './NaviContext'
+import { Navigation, Route, Subscription } from '@liliana-sanfilippo/navi'
 
 export interface NaviProviderProps {
   hashScrollBehavior?: HashScrollBehavior,

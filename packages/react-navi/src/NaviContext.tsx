@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Navigation, Chunk } from 'navi'
+import { Chunk, Navigation, Route } from '@liliana-sanfilippo/navi'
 
 export const NaviContext = React.createContext<NaviContext>({} as any)
 

@@ -1,7 +1,8 @@
-import { createMemoryNavigation, compose, withView, route, mount } from 'navi'
-import React, { Component } from 'react'
 import ReactTestRenderer from 'react-test-renderer'
 import { View, NaviProvider } from '../src'
+import React from 'react'
+import { compose, createMemoryNavigation, mount, route, withView } from '@liliana-sanfilippo/navi'
+import { Component } from 'react'
 
 describe('View', () => {
   test('supports nested nested views', async () => {

@@ -52,6 +52,6 @@ describe("integration", () => {
         expect(route.error).toBeInstanceOf(NotFoundError)
         expect(route.error && route.error.pathname).toBe("/examples/intermediate")
 
-        nav.dispose()
+       // nav.dispose()
     })
 })

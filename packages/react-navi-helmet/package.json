@@ -27,19 +27,12 @@
     "helmet",
     "head"
   ],
-  "peerDependencies": {
-    "navi": "^0.14.0",
-    "react": "^16.8.0",
-    "react-navi": "^0.14.0"
-  },
+  "peerDependencies": {},
   "dependencies": {
-    "@types/react-helmet": "^5.0.8",
-    "react-helmet": "^5.2.1"
+    "@types/react-helmet": "^6.1.11",
+    "react-helmet-async": "^2.0.5"
   },
-  "devDependencies": {
-    "navi": "^0.15.0",
-    "react-navi": "^0.15.0"
-  },
+  "devDependencies": {},
   "homepage": "https://frontarm.com/navi/",
   "repository": {
     "type": "git",

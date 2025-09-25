@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Route, Chunk, ViewChunk } from 'navi'
 import {
   HashScrollContext,
   HashScrollBehavior,
@@ -7,6 +6,7 @@ import {
 } from './HashScroll'
 import { NaviContext } from './NaviContext'
 import { ViewHeadRendererContext } from './ViewHeadRendererContext'
+import { Chunk, Route, ViewChunk } from '@liliana-sanfilippo/navi'
 
 function defaultUseViewChunkPredicate(chunk: Chunk) {
   return chunk.type === 'view'

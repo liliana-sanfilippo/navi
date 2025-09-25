@@ -1,16 +1,18 @@
 {
-  "name": "navi",
-  "version": "0.15.0",
+  "name": "@liliana-sanfilippo/navi",
+  "version": "0.0.1",
   "description": "A router-loader for React.",
-  "author": "James K Nelson <james@jamesknelson.com>",
+  "author": "James K Nelson <james@jamesknelson.com> and Liliana Sanfilippo <liliana-sanfilippo@uni-bielefeld.de>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/commonjs/index.js",
   "module": "dist/es/index.js",
   "types": "dist/types/index.d.ts",
-  "homepage": "https://frontarm.com/navi/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/frontarm/navi.git"
+    "url": "https://github.com/liliana-sanfilippo/navi.git"
   },
   "scripts": {
     "clean": "rimraf dist",
@@ -36,7 +38,8 @@
     "@types/history": "^4.6.2"
   },
   "dependencies": {
-    "history": "^4.9.0"
+    "history": "^4.9.0",
+    "jest-environment-jsdom": "^30.1.2"
   },
   "jest": {
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
@@ -56,6 +59,5 @@
         "diagnostics": false
       }
     }
-  },
-  "gitHead": "ffa39ff256be1884e010363ad6be65fccf4383af"
+  }
 }

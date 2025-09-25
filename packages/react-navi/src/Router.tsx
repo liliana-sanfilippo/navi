@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { Chunk, Navigation, Matcher, createBrowserNavigation } from 'navi'
+
 import { HashScrollBehavior } from './HashScroll'
 import { NaviProvider } from './NaviProvider'
 import { View } from './View'
+import { createBrowserNavigation, Matcher, Navigation } from '@liliana-sanfilippo/navi'
 
 export interface RouterProps<Context extends object> {
   basename?: string
@@ -27,7 +28,7 @@ export class Router<Context extends object = {}> extends React.Component<
     fallback: undefined,
   }
 
-  navigation: Navigation<Context>
+  navigation?: Navigation<Context>
 
   constructor(props: RouterProps<Context>) {
     super(props)
@@ -62,6 +63,7 @@ export class Router<Context extends object = {}> extends React.Component<
 
   render() {
     let { children, hashScrollBehavior } = this.props
+    if(!this.navigation) return;
     return (
       <NaviProvider
         navigation={this.navigation}
@@ -79,15 +81,11 @@ export class Router<Context extends object = {}> extends React.Component<
 
   componentDidUpdate(prevProps: RouterProps<Context>) {
     if (shallowDiffers(prevProps.context || {}, this.props.context || {})) {
-      this.navigation.setContext(this.props.context! || {})
+      this.navigation?.setContext(this.props.context! || {})
     }
   }
 
   componentWillUnmount() {
-    // Clean up any navigation object that we've created.
-    if (!this.props.navigation) {
-      this.navigation.dispose()
-    }
     delete this.navigation
   }
 }

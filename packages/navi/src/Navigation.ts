@@ -90,7 +90,7 @@ export class Navigation<Context extends object = any>
   private ignoreNextLocationChange?: boolean
   private isLastRouteSteady: boolean
   private observableSubscription?: Subscription
-  private unlisten: () => void
+  private unlisten?: () => void
   private trailingSlash: 'add' | 'remove' | null
 
   constructor(options: NavigationOptions<Context>) {
@@ -113,10 +113,12 @@ export class Navigation<Context extends object = any>
     this.navigate = this.navigate.bind(this)
   }
 
-  dispose() {
+/* dispose() {
     this.observers.length = 0
-    this.unlisten()
-    delete this.unlisten
+    if (this.unlisten){
+      this.unlisten()
+      delete this.unlisten
+    }
     delete this._history
 
     if (this.observableSubscription) {
@@ -128,15 +130,17 @@ export class Navigation<Context extends object = any>
     delete this.waitUntilSteadyDeferred
     delete this.lastRoute
     delete this._router
-  }
+  }*/
 
   async go(n: number) {
-    let urlChanged = new Promise(resolve => {
+    let urlChanged = new Promise<void>(resolve => {
+      if (!this._history) return;
       let unlisten = this._history.listen(() => {
         unlisten()
         resolve()
       })
     })
+    if (!this._history) return;
     this._history.go(n)
     await urlChanged
     return this.getRoute()
@@ -172,7 +176,6 @@ export class Navigation<Context extends object = any>
         `You must specify a URL or state to navigation.navigate().`,
       )
     }
-
     let currentLocation = this._history.location
 
     // Default to replace when we're not changing the URL itself, but only
@@ -183,13 +186,13 @@ export class Navigation<Context extends object = any>
         currentLocation.pathname === nextURL.pathname &&
         currentLocation.search === nextURL.search &&
         currentLocation.hash === nextURL.hash)
-
     this._history[shouldReplace ? 'replace' : 'push']({
       pathname: nextURL.pathname,
       search: nextURL.search,
       hash: nextURL.hash,
+      // @ts-ignore
       state: packLocationState({
-        revertTo: shouldReplace ? currentLocation.state : undefined,
+        revertTo: shouldReplace ? currentLocation.state  : undefined,
         method: options.method,
         headers: options.headers,
         body: options.body,
@@ -204,6 +207,7 @@ export class Navigation<Context extends object = any>
   // Put any history state on a "prefetched state" object, so that on
   // navigation, any prefetched state can be reused.
   async prefetch(url: string | Partial<URLDescriptor>): Promise<void> {
+    if (!this._router) return;
     await resolve({
       basename: this.basename,
       routes: this.matcher,
@@ -213,6 +217,7 @@ export class Navigation<Context extends object = any>
   }
 
   refresh(): Promise<Route> {
+    if (!this._history)  return this.getRoute();
     this.handleLocationChange(this._history.location, true)
     return this.getRoute()
   }
@@ -250,6 +255,7 @@ export class Navigation<Context extends object = any>
    * Returns the current history state
    */
   extractState(): any {
+    if (!this._history) return;
     return this._history.location.state
   }
 
@@ -299,6 +305,7 @@ export class Navigation<Context extends object = any>
         this.trailingSlash,
       )
       if (location.pathname !== modifiedPathname) {
+        if (!this._history) return;
         this._history.replace({
           ...location,
           pathname: modifiedPathname,
@@ -313,6 +320,7 @@ export class Navigation<Context extends object = any>
     if (this.observableSubscription) {
       this.observableSubscription.unsubscribe()
     }
+    if (!this._router) return;
     let observable = this._router.createObservable(
       url,
       unpackLocationState(location.state),
@@ -327,6 +335,7 @@ export class Navigation<Context extends object = any>
   // Allows for either the location or route or both to be changed at once.
   private handleChunkList = (chunks: Chunk[]) => {
     let isSteady = true
+    if (!this._history) return;
     let location = this._history.location
     for (let i = 0; i < chunks.length; i++) {
       let chunk = chunks[i]
@@ -337,7 +346,7 @@ export class Navigation<Context extends object = any>
         this.ignoreNextLocationChange = true
         this._history.replace({
           ...location,
-          state: setLocationRequestState(location.state, chunk.state),
+           state: setLocationRequestState(location.state, chunk.state),
         })
       }
       if (chunk.type === 'redirect') {
@@ -346,6 +355,7 @@ export class Navigation<Context extends object = any>
           this.ignoreNextLocationChange = true
           this._history.replace({
             ...location,
+            // @ts-ignore
             state: revertedState,
           })
           this._history.push(chunk.to)

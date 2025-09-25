@@ -1,16 +1,11 @@
 import * as React from 'react'
 import {
-  URLDescriptor,
-  createURLDescriptor,
-  joinPaths,
-  modifyTrailingSlash,
-} from 'navi'
-import {
   HashScrollContext,
   HashScrollBehavior,
   scrollToHash,
 } from './HashScroll'
 import { NaviContext } from './NaviContext'
+import { createURLDescriptor, joinPaths, modifyTrailingSlash, URLDescriptor } from '@liliana-sanfilippo/navi'
 
 export interface UseLinkPropsOptions {
   disabled?: boolean

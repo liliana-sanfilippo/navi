@@ -1,7 +1,7 @@
-import { createMemoryNavigation, route, mount } from 'navi'
-import React from 'react'
+
 import ReactTestRenderer from 'react-test-renderer'
 import { NotFoundBoundary, Router, View } from '../src'
+import { createMemoryNavigation, mount, route } from '@liliana-sanfilippo/navi'
 
 describe('NotFoundBoundary', () => {
   test('renders when navigating to a missing url', async () => {

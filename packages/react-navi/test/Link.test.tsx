@@ -1,7 +1,6 @@
-import { createMemoryNavigation, route, mount } from 'navi'
-import React from 'react'
 import ReactTestRenderer from 'react-test-renderer'
 import { Router, useActive } from '../src'
+import { createMemoryNavigation, mount, route } from '@liliana-sanfilippo/navi'
 
 function Active() {
   let rootActive = useActive('/', { loading: true })

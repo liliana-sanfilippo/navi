@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { NotFoundError } from 'navi'
 import { NaviContext } from './NaviContext'
+import { NotFoundError } from '@liliana-sanfilippo/navi'
 
 export interface NotFoundBoundaryProps {
   render: (error: NotFoundError) => React.ReactNode,

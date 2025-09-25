@@ -1,5 +1,5 @@
-import { Chunk } from 'navi'
 import * as React from 'react'
+import { Chunk } from '@liliana-sanfilippo/navi'
 
 export type ViewHeadRenderer = (chunks: Chunk[]) => React.ReactNode
 
